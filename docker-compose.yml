@@ -1,0 +1,32 @@
+ mysql:
+  build: ./mysql/
+  volumes:
+   - /var/mysql/data:/var/lib/mysql
+   - /var/mysql/logs:/var/log/mysql
+  expose:
+   - "3306"
+  ports:
+   - 3306:3306
+  env_file:
+   - ./env
+
+ php:
+  build: ./php/
+  volumes:
+   - /var/www/html:/var/www/html
+  expose:
+   - "9000"
+  links:
+   - mysql
+  command: php-fpm
+   
+ nginx:
+  build: ./nginx
+  volumes_from:
+   - php
+  volumes:
+   - /var/nginx:/var/nginx
+  links:
+   - php
+  ports:
+   - "80:80"
