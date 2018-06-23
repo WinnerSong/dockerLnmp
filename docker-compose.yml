@@ -21,11 +21,10 @@
   command: php-fpm
    
  nginx:
-  build: ./nginx
+  image: nginx
+  tty: true
   volumes_from:
    - php
-  volumes:
-   - /var/nginx:/var/nginx
   links:
    - php
   ports:
